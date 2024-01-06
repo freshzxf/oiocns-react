@@ -42,7 +42,6 @@ const Design: React.FC<IProps> = ({ current, resource }) => {
               isEdit={true}
               resource={resource}
               onSelectedNode={(node) => {
-                console.log(node);
                 setCurrentNode(node);
               }}
             />

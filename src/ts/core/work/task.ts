@@ -7,6 +7,7 @@ import { UserProvider } from '../user';
 import { IWorkApply } from './apply';
 import { FileInfo, IFile } from '../thing/fileinfo';
 import { Acquire } from './executor/acquire';
+import { RentExecutor } from './executor/rent';
 import { IExecutor } from './executor';
 export type TaskTypeName = '待办' | '已办' | '抄送' | '发起的';
 
@@ -174,6 +175,9 @@ export class WorkTask extends FileInfo<schema.XEntity> implements IWorkTask {
           executors.push(new Acquire(item, this));
           break;
         case '归属权变更':
+          break;
+        case '测试执行器':
+          executors.push(new RentExecutor(item, this));
           break;
       }
     }

@@ -19,7 +19,6 @@ type NodeProps = {
 const Node: React.FC<NodeProps> = (props: NodeProps) => {
   let isRoot = false;
   let placeholder = '';
-  console.log(props);
   switch (props.config.type) {
     case AddNodeType.ROOT:
       isRoot = true;

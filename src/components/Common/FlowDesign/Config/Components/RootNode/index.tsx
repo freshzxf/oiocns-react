@@ -109,6 +109,8 @@ const RootNode: React.FC<IProps> = (props) => {
                 displayExpr={'text'}
                 valueExpr={'value'}
                 onValueChange={(e) => {
+                  console.log(e);
+                  //todo 当且换选择后是否切换执行器数组
                   setTrigger(e);
                 }}
               />

@@ -64,6 +64,7 @@ export default class StoreHub implements IDisposable {
   public get isConnected(): boolean {
     return (
       this._isStarted && this._connection.state === signalR.HubConnectionState.Connected
+      // false
     );
   }
   // 获取accessToken

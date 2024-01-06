@@ -12,6 +12,7 @@ import OpenFileDialog from '@/components/OpenFileDialog';
 import { SelectBox } from 'devextreme-react';
 import { getUuid } from '@/utils/tools';
 import Rule from '../../Rule';
+
 interface IProps {
   work: IWork;
   current: NodeModel;
@@ -27,7 +28,9 @@ interface IProps {
 const ApprovalNode: React.FC<IProps> = (props) => {
   const [funcName, setFuncName] = useState<string>('');
   const [trigger, setTrigger] = useState<string>('before');
-  const [executors, setExecutors] = useState<model.Executor[]>(props.current.executors);
+  const [executors, setExecutors] = useState<model.Executor[]>(
+    props.current.executors || [],
+  );
   const [isOpen, setIsOpen] = useState<boolean>(false); // 打开弹窗
   const [formModel, setFormModel] = useState<string>('');
   const [primaryForms, setPrimaryForms] = useState<schema.XForm[]>();
@@ -247,6 +250,7 @@ const ApprovalNode: React.FC<IProps> = (props) => {
                 })}
                 deleteFuc={(id: string) => {
                   setExecutors(executors.filter((a) => a.id != id));
+                  props.current.executors = executors.filter((a) => a.id != id);
                 }}
               />
             </span>

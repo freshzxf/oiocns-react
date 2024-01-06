@@ -185,6 +185,7 @@ export class XCollection<T extends schema.Xbase> {
       copyId,
     );
     if (res.success) {
+      console.log(res);
       return res.data;
     }
   }
