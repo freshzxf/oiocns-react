@@ -10,6 +10,7 @@ import { Form } from '@/ts/core/thing/standard/form';
 import { SelectBox } from 'devextreme-react';
 import { getUuid } from '@/utils/tools';
 import Rule from '../../Rule';
+import ExecutorShowComp from '@/components/Common/ExecutorShowComp';
 interface IProps {
   work: IWork;
   belong: IBelong;
@@ -22,6 +23,7 @@ interface IProps {
  */
 
 const RootNode: React.FC<IProps> = (props) => {
+  console.log(props, 'props');
   const [trigger, setTrigger] = useState<string>('before');
   const [funcName, setFuncName] = useState<string>('');
   const [formModel, setFormModel] = useState<string>('');
@@ -134,6 +136,8 @@ const RootNode: React.FC<IProps> = (props) => {
                     id: getUuid(),
                     trigger: trigger,
                     funcName: funcName,
+                    changes: [],
+                    hookUrl: '',
                   });
                   setFuncName('');
                   setExecutors([...executors]);
@@ -145,10 +149,9 @@ const RootNode: React.FC<IProps> = (props) => {
           }>
           {executors && executors.length > 0 && (
             <span>
-              <ShareShowComp
-                departData={executors?.map((a) => {
-                  return { id: a.id, name: a.funcName };
-                })}
+              <ExecutorShowComp
+                work={props.work}
+                executors={executors}
                 deleteFuc={(id: string) => {
                   var exes = executors.filter((a) => a.id != id);
                   setExecutors(exes);
@@ -169,7 +172,7 @@ const RootNode: React.FC<IProps> = (props) => {
             multiple
             title={`选择${formModel}表单`}
             rootKey={props.belong.directory.key}
-            accepts={['表单']}
+            accepts={['表单', '报表']}
             excludeIds={(formModel === '子表' ? detailForms : primaryForms).map(
               (i) => i.id,
             )}

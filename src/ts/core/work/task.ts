@@ -9,6 +9,7 @@ import { FileInfo, IFile } from '../thing/fileinfo';
 import { Acquire } from './executor/acquire';
 import { RentExecutor } from './executor/rent';
 import { IExecutor } from './executor';
+import { FieldsChange } from './executor/change';
 export type TaskTypeName = '待办' | '已办' | '抄送' | '发起的';
 
 export interface IWorkTask extends IFile {
@@ -28,8 +29,6 @@ export interface IWorkTask extends IFile {
   targets: schema.XTarget[];
   /** 是否为历史对象 */
   isHistory: boolean;
-  /** 执行器 */
-  executors: IExecutor[];
   /** 是否为指定的任务类型 */
   isTaskType(type: TaskTypeName): boolean;
   /** 是否满足条件 */
@@ -74,7 +73,6 @@ export class WorkTask extends FileInfo<schema.XEntity> implements IWorkTask {
   get isHistory(): boolean {
     return this.history;
   }
-  executors: IExecutor[] = [];
   get groupTags(): string[] {
     return [this.belong.name, this.taskdata.taskType, this.taskdata.approveType];
   }
@@ -176,8 +174,8 @@ export class WorkTask extends FileInfo<schema.XEntity> implements IWorkTask {
           break;
         case '归属权变更':
           break;
-        case '测试执行器':
-          executors.push(new RentExecutor(item, this));
+        case '字段变更':
+          executors.push(new FieldsChange(item, this));
           break;
       }
     }
