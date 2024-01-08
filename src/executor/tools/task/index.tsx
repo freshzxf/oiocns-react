@@ -145,7 +145,9 @@ const TaskContent: React.FC<TaskDetailType> = ({ current, finished }) => {
         direction="vertical">
         {executors
           .filter((item) => item.metadata.trigger == 'before')
-          .filter((item) => ['数据申领', 'Webhook'].includes(item.metadata.funcName))
+          .filter((item) =>
+            ['数据申领', 'Webhook', '租房确定'].includes(item.metadata.funcName),
+          )
           .map((item, index) => {
             const [progress, setProgress] = useState(item.progress);
             useEffect(() => {

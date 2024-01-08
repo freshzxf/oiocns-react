@@ -127,12 +127,21 @@ const TaskApproval: React.FC<TaskDetailType> = ({ task, finished, fromData }) =>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <Button
           type="primary"
-          onClick={() => {
+          onClick={async () => {
             const node = getNodeByNodeId(task.taskdata.nodeId, task.instanceData?.node);
             const executors = node ? task.loadExecutors(node) : [];
             const executor = executors.find(
               (item) => item.metadata.funcName == '字段变更',
             );
+
+            if (
+              executor?.metadata.funcName == '租房确定' &&
+              executor?.metadata.trigger === 'after'
+            ) {
+              await approving();
+              await executor.execute(fromData ?? new Map());
+            }
+
             if (executor) {
               setConfirm(<Confirm task={task} executor={executor} />);
               return;

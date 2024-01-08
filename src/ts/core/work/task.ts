@@ -177,6 +177,9 @@ export class WorkTask extends FileInfo<schema.XEntity> implements IWorkTask {
         case '字段变更':
           executors.push(new FieldsChange(item, this));
           break;
+        case '租房确定':
+          executors.push(new RentExecutor(item, this));
+          break;
       }
     }
     return executors;

@@ -28,6 +28,12 @@ const ExecutorShowComp: React.FC<IProps> = (props) => {
       <Space direction="vertical">
         {data.map((item: model.Executor, index: number) => {
           switch (item.funcName) {
+            case '租房确定':
+              return (
+                <Common key={index} executor={item} deleteFuc={props.deleteFuc}>
+                  用于租房数据整理
+                </Common>
+              );
             case '数据申领':
               return (
                 <Common key={index} executor={item} deleteFuc={props.deleteFuc}>

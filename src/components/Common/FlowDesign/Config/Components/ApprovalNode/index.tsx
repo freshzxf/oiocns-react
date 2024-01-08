@@ -219,7 +219,7 @@ const ApprovalNode: React.FC<IProps> = (props) => {
                 showClearButton
                 style={{ display: 'inline-block' }}
                 dataSource={executorNames.filter(
-                  (a) => executors.find((s) => s.funcName == a) == undefined,
+                  (a) => executors?.find((s) => s.funcName == a) == undefined,
                 )}
                 onValueChange={(e) => {
                   setFuncName(e);
@@ -230,7 +230,11 @@ const ApprovalNode: React.FC<IProps> = (props) => {
                 style={{ display: 'inline-block' }}
                 disabled={!funcName || !trigger}
                 onClick={() => {
-                  executors.push({
+                  if (!executors) {
+                    setExecutors([]);
+                    props.current.executors = executors;
+                  }
+                  executors?.push({
                     id: getUuid(),
                     trigger: trigger,
                     funcName: funcName,

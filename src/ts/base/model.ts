@@ -790,7 +790,7 @@ export type WorkNodeModel = {
   // 主表
   primaryForms: XForm[];
   // 子表
-  detailForms: XForm[];
+    detailForms: XForm[];
 };
 
 type FormInfo = {
