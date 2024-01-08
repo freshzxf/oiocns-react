@@ -112,6 +112,46 @@ const TaskApproval: React.FC<TaskDetailType> = ({ task, finished, fromData }) =>
     );
   };
 
+  // const ConfirmRent: React.FC<ConfirmProps> = (props) => {
+  //   const [open, setOpen] = useState(true);
+  //   return (
+  //     <Modal
+  //       open={open}
+  //       title={'字段变更确认'}
+  //       width={1200}
+  //       onOk={async () => {
+  //         try {
+  //           await props.executor.execute(fromData ?? new Map());
+  //           await approving();
+  //           setOpen(false);
+  //         } catch (error) {
+  //           message.error((error as Error).message);
+  //         }
+  //       }}
+  //       onCancel={() => {
+  //         setOpen(false);
+  //       }}>
+  //       <Space style={{ width: '100%' }} direction="vertical">
+  //         <span>确认后，您的数据将自动产生变更操作，变更字段如下</span>
+  //         {props.executor.metadata.changes.map((item, index) => {
+  //           return (
+  //             <Card key={index} title={item.name}>
+  //               <ProTable
+  //                 key={'id'}
+  //                 search={false}
+  //                 options={false}
+  //                 tableAlertRender={false}
+  //                 dataSource={item.fieldChanges}
+  //                 columns={changeRecords}
+  //               />
+  //             </Card>
+  //           );
+  //         })}
+  //       </Space>
+  //     </Modal>
+  //   );
+  // };
+
   if (task.taskdata.status >= TaskStatus.ApprovalStart) {
     return <></>;
   }
@@ -130,16 +170,25 @@ const TaskApproval: React.FC<TaskDetailType> = ({ task, finished, fromData }) =>
           onClick={async () => {
             const node = getNodeByNodeId(task.taskdata.nodeId, task.instanceData?.node);
             const executors = node ? task.loadExecutors(node) : [];
+            console.log(executors);
             const executor = executors.find(
-              (item) => item.metadata.funcName == '字段变更',
+              (item) =>
+                item.metadata.funcName == '字段变更' ||
+                item.metadata.funcName == '租房确定',
             );
+
+            console.log(executor);
 
             if (
               executor?.metadata.funcName == '租房确定' &&
               executor?.metadata.trigger === 'after'
             ) {
-              await approving();
+              console.log(111111111);
+              
+              
               await executor.execute(fromData ?? new Map());
+              approving();
+              return;
             }
 
             if (executor) {
