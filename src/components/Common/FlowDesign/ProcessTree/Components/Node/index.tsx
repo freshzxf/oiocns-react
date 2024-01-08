@@ -18,6 +18,7 @@ type NodeProps = {
  */
 const Node: React.FC<NodeProps> = (props: NodeProps) => {
   let isRoot = false;
+  let isJGNode = (props.config.code as string).startsWith('JGNODE');
   let placeholder = '';
   switch (props.config.type) {
     case AddNodeType.ROOT:
@@ -75,7 +76,11 @@ const Node: React.FC<NodeProps> = (props: NodeProps) => {
             }>
             <div
               style={{ display: 'flex' }}
-              onClick={() => props.onSelected()}
+              onClick={() => {
+                if (!isJGNode) {
+                  props.onSelected();
+                }
+              }}
               title="点击配置">
               <div className={cls['node-body-header']}>{props.config.type}</div>
               <div className={cls['node-body-right']}>
@@ -87,7 +92,7 @@ const Node: React.FC<NodeProps> = (props: NodeProps) => {
                 </span>
               </div>
             </div>
-            {props.isEdit && !isRoot && (
+            {props.isEdit && !isRoot && !isJGNode && (
               <div className={cls.closeBtn}>
                 <ai.AiOutlineClose onClick={() => props.onDelNode()} title="点击删除" />
               </div>
